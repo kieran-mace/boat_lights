@@ -30,7 +30,7 @@ LOW = 0x00
 INPUT = 0xFF
 OUTPUT = 0x00
 
-button_width = 24
+button_width = 20
 button_height = 4
 
 class Relay:
