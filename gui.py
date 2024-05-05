@@ -58,26 +58,25 @@ class Relay:
         self.button.config(bg="red")
     
 class TemporaryRelay(Relay):
-  def __init__(self, gpioNumber, mcpController, name, window, row, col):
-    super().__init__(gpioNumber, mcpController, name, window, row, col)
-    self.timer = None
-
-  def flip(self):
-    if self.status:
-      print("Flipping Relay " + self.name + " from on to off")
-      self.status = False
-      self.mcpController.digital_write(self.gpioNumber, LOW)
-      self.button.config(bg="bisque2")
-      if self.timer is not None:
-        self.window.after_cancel(self.timer)
+    def __init__(self, gpioNumber, mcpController, name, window, row, col):
+        super().__init__(gpioNumber, mcpController, name, window, row, col)
         self.timer = None
-    else:
-      print("Flipping Relay " + self.name + " from off to on")
-      self.status = True
-      self.mcpController.digital_write(self.gpioNumber, HIGH)
-      self.button.config(bg="red")
-      self.timer = self.window.after(5000, self.flip)
-      # self.timer = self.window.after(300000, self.flip)
+
+    def flip(self):
+        if self.status:
+            print("Flipping Relay " + self.name + " from on to off")
+            self.status = False
+            self.mcpController.digital_write(self.gpioNumber, LOW)
+            self.button.config(bg="bisque2")
+            if self.timer is not None:
+                self.window.after_cancel(self.timer)
+                self.timer = None
+        else:
+            print("Flipping Relay " + self.name + " from off to on")
+            self.status = True
+            self.mcpController.digital_write(self.gpioNumber, HIGH)
+            self.button.config(bg="red")
+            self.timer = self.window.after(300000, lambda: self.flip())
 
 def close():
     #RPi.GPIO.cleanup()
@@ -108,7 +107,7 @@ mcp2 = 'mcp'
 ### GUI DEFINITIONS ###
 win = Tk()
 win.title("Relay Controller")
-myFont = tkinter.font.Font(family = 'Helvetica', size = 20, weight = "bold")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 32, weight = "bold")
 
 ### WIDGETS ###
 
