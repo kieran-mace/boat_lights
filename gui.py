@@ -126,7 +126,7 @@ button_height = int((win.winfo_height() - 20) / 9)
 buttons = []
 labels = []
 # Interior Lights
-label = Label(frame, text="Interior Lights", font=myFont, width=button_width, height=button_height)
+label = Label(win, text="Interior Lights", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 1)
 labels.append(label)
 buttons.append(Relay(GPA0, mcp1, "Main cabin", win, 2, 1))
