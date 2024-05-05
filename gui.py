@@ -114,7 +114,7 @@ for i in range(6):
     win.grid_columnconfigure(i, weight=1)
 
 # Create a frame to hold your buttons
-frame = tk.Frame(win)
+frame = Frame(win)
 frame.pack(fill="both", expand=True)
 
 # Create the buttons and set their size based on the win width
