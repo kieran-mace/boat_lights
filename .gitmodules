@@ -1,0 +1,3 @@
+[submodule "MCP23017-python"]
+	path = MCP23017-python
+	url = https://github.com/sensorberg/MCP23017-python.git
