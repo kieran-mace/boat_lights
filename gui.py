@@ -30,7 +30,7 @@ LOW = 0x00
 INPUT = 0xFF
 OUTPUT = 0x00
 
-button_width = 30
+button_width = 24
 button_height = 4
 
 class Relay:
@@ -87,7 +87,7 @@ mcp2 = 'mcp'
 ### GUI DEFINITIONS ###
 win = Tk()
 win.title("Relay Controller")
-myFont = tkinter.font.Font(family = 'Helvetica', size = 18, weight = "bold")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 20, weight = "bold")
 
 ### WIDGETS ###
 
