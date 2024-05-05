@@ -3,8 +3,9 @@
 from tkinter import *
 import tkinter.font
 import time
-#from mcp23017 import *
-#import smbus
+from mcp23017 import *
+import smbus
+
 GPA0 = 0
 GPA1 = 1
 GPA2 = 2
@@ -29,16 +30,12 @@ LOW = 0x00
 INPUT = 0xFF
 OUTPUT = 0x00
 
-#GPIO.setmode(GPIO.BOARD)
-
-
 class Relay:
   def __init__(self, gpioNumber, mcpController, name, window, row, col):
     self.name = name
     self.gpioNumber = gpioNumber
-    #self.mcpController = mcpController
+    self.mcpController = mcpController
     self.status = False
-    #GPIO.setup(gpioNumber, GPIO.OUT)
     self.window = window
     self.row = row
     self.col = col
@@ -49,11 +46,11 @@ class Relay:
     if self.status:
         print("Flipping Relay " + self.name + " from on to off")
         self.status = False
-        #self.mcpController.digitalWrite(self.gpioNumber, LOW)
+        self.mcpController.digital_write(self.gpioNumber, LOW)
     else:
         print("Flipping Relay " + self.name + " from off to on")
         self.status = True
-        #self.mcpController.digitalWrite(self.gpioNumber, HIGH)
+        self.mcpController.digital_write(self.gpioNumber, HIGH)
     
 
 def close():
@@ -62,14 +59,24 @@ def close():
 
 ### Controller Definitions ###
 
-#bus = smbus.SMBus(1)
+MCP23017_IODIRA = 0x00
+MCP23017_IODIRB = 0x01
+MCP23017_GPIOA = 0x12
+MCP23017_GPIOB = 0x13
 
-#mcp1 = MCP23017(0x26, bus)  
-#mcp2 = MCP23017(0x27, bus)  
+bus = smbus.SMBus(1)
 
-mcp1 = 'mcp1'
-mcp2 = 'mcp2'
+bus.write_byte_data(0x26,MCP23017_IODIRA,0x00)
+bus.write_byte_data(0x26,MCP23017_IODIRB,0x00)
+bus.write_byte_data(0x26,MCP23017_GPIOA,0x00)
+bus.write_byte_data(0x26,MCP23017_GPIOB,0x00)
+mcp1 = MCP23017(0x26, bus)  
 
+bus.write_byte_data(0x27,MCP23017_IODIRA,0x00)
+bus.write_byte_data(0x27,MCP23017_IODIRB,0x00)
+bus.write_byte_data(0x27,MCP23017_GPIOA,0x00)
+bus.write_byte_data(0x27,MCP23017_GPIOB,0x00)
+mcp2 = MCP23017(0x27, bus)  
 
 ### GUI DEFINITIONS ###
 win = Tk()
