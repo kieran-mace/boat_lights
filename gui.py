@@ -118,9 +118,10 @@ myFont = tkinter.font.Font(family = 'Helvetica', size = 26, weight = "bold")
 # frame.pack(fill="both", expand=True)
 
 # Create the buttons and set their size based on the win width
-button_width = int((win.winfo_width() - 20) / 6)  # Adjust this value as needed
-button_height = int((win.winfo_height() - 20) / 9)
-
+# button_width = int((win.winfo_width() - 20) / 6)  # Adjust this value as needed
+# button_height = int((win.winfo_height() - 20) / 9)
+button_width = 40  # Adjust this value as needed
+button_height = 4
 ### WIDGETS ###
 
 buttons = []
