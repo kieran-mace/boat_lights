@@ -107,7 +107,7 @@ win.title("Relay Controller")
 win.geometry("1920x1200")  # Set the initial win size
 
 
-myFont = tkinter.font.Font(family = 'Helvetica', size = 26, weight = "bold")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 35, weight = "bold")
 
 # # Configure the grid columns to be proportional
 # for i in range(6):
@@ -120,14 +120,14 @@ myFont = tkinter.font.Font(family = 'Helvetica', size = 26, weight = "bold")
 # Create the buttons and set their size based on the win width
 # button_width = int((win.winfo_width() - 20) / 6)  # Adjust this value as needed
 # button_height = int((win.winfo_height() - 20) / 9)
-button_width = 18  # Adjust this value as needed
-button_height = 3
+button_width = 11  # Adjust this value as needed
+button_height = 2
 ### WIDGETS ###
 
 buttons = []
 labels = []
 # Interior Lights
-label = Label(win, text="Interior Lights", font=myFont, width=button_width, height=button_height)
+label = Label(win, text="Int. Lights", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 1)
 labels.append(label)
 buttons.append(Relay(GPA0, mcp1, "Main cabin", win, 2, 1))
@@ -138,7 +138,7 @@ buttons.append(Relay(GPA4, mcp1, "Port Fwd", win, 6, 1))
 buttons.append(Relay(GPA5, mcp1, "Saloon", win, 7, 1))
 buttons.append(Relay(GPA6, mcp1, "Stair", win, 8, 1))
 # Exterior Lights
-label = Label(win, text="Exterior Lights", font=myFont, width=button_width, height=button_height)
+label = Label(win, text="Ext. Lights", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 2)
 labels.append(label)
 buttons.append(Relay(GPA7, mcp1, "Underwater", win, 2, 2))
@@ -147,7 +147,7 @@ buttons.append(Relay(GPB1, mcp1, "Spreader", win, 4, 2))
 buttons.append(Relay(GPB2, mcp1, "Awning", win, 5, 2))
 buttons.append(Relay(GPB3, mcp1, "Landing", win, 6, 2))
 # Navigation Lights
-label = Label(win, text="Navigation Lights", font=myFont, width=button_width, height=button_height)
+label = Label(win, text="Nav. Lights", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 3)
 labels.append(label)
 buttons.append(Relay(GPB4, mcp1, "Tricolor", win, 2, 3))
