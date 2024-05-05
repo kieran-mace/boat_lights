@@ -107,7 +107,7 @@ mcp2 = 'mcp'
 ### GUI DEFINITIONS ###
 win = Tk()
 win.title("Relay Controller")
-myFont = tkinter.font.Font(family = 'Helvetica', size = 32, weight = "bold")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 26, weight = "bold")
 
 ### WIDGETS ###
 
