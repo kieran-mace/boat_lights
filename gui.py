@@ -30,6 +30,9 @@ LOW = 0x00
 INPUT = 0xFF
 OUTPUT = 0x00
 
+button_width = 30
+button_height = 4
+
 class Relay:
   def __init__(self, gpioNumber, mcpController, name, window, row, col):
     self.name = name
@@ -39,7 +42,7 @@ class Relay:
     self.window = window
     self.row = row
     self.col = col
-    self.button = Button(self.window, text=self.name, font=myFont, command=self.flip, bg='bisque2', height=1, width=24)
+    self.button = Button(self.window, text=self.name, font=myFont, command=self.flip, bg='bisque2', height=button_height, width=button_width)
     self.button.grid(row=self.row,column=self.col)
 
   def flip(self):
@@ -47,10 +50,12 @@ class Relay:
         print("Flipping Relay " + self.name + " from on to off")
         self.status = False
         self.mcpController.digital_write(self.gpioNumber, LOW)
+        self.button.config(bg="bisque2")
     else:
         print("Flipping Relay " + self.name + " from off to on")
         self.status = True
         self.mcpController.digital_write(self.gpioNumber, HIGH)
+        self.button.config(bg="red")
     
 
 def close():
@@ -82,46 +87,59 @@ mcp2 = 'mcp'
 ### GUI DEFINITIONS ###
 win = Tk()
 win.title("Relay Controller")
-myFont = tkinter.font.Font(family = 'Helvetica', size = 12, weight = "bold")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 18, weight = "bold")
 
 ### WIDGETS ###
 
 buttons = []
-buttons.append(Relay(GPA0, mcp1, "Main cabin", win, 1, 1))
-buttons.append(Relay(GPA1, mcp1, "Stb Fwd", win, 2, 1))
-buttons.append(Relay(GPA2, mcp1, "Port Aft", win, 3, 1))
-buttons.append(Relay(GPA3, mcp1, "Workshop", win, 4, 1))
-buttons.append(Relay(GPA4, mcp1, "Port Fwd", win, 5, 1))
-buttons.append(Relay(GPA5, mcp1, "Saloon", win, 6, 1))
-buttons.append(Relay(GPA6, mcp1, "Stair", win, 7, 1))
-buttons.append(Relay(GPA7, mcp1, "Underwater", win, 8, 1))
-buttons.append(Relay(GPB0, mcp1, "Courtesy", win, 9, 1))
-buttons.append(Relay(GPB1, mcp1, "Spreader", win, 10, 1))
-buttons.append(Relay(GPB2, mcp1, "Awning", win, 11, 1))
-buttons.append(Relay(GPB3, mcp1, "Landing", win, 12, 1))
-buttons.append(Relay(GPB4, mcp1, "Tricolor", win, 13, 1))
-buttons.append(Relay(GPB5, mcp1, "Anchor", win, 14, 1))
-buttons.append(Relay(GPB6, mcp1, "Steaming", win, 15, 1))
-buttons.append(Relay(GPB7, mcp1, "Lower Nav", win, 16, 1))
-buttons.append(Relay(GPA0, mcp2, "Fuel  P-S", win, 1, 2))
-buttons.append(Relay(GPA1, mcp2, "Fuel  S-P", win, 2, 2))
-buttons.append(Relay(GPA2, mcp2, "Generator", win, 3, 2))
-buttons.append(Relay(GPA3, mcp2, "240 V Invert", win, 4, 2))
-buttons.append(Relay(GPA4, mcp2, "120 V Invert", win, 5, 2))
-buttons.append(Relay(GPA5, mcp2, "TV", win, 6, 2))
-buttons.append(Relay(GPA6, mcp2, "Watermaker", win, 7, 2))
-buttons.append(Relay(GPA7, mcp2, "Spare", win, 8, 2))
-buttons.append(Relay(GPB0, mcp2, "Instruments", win, 9, 2))
-buttons.append(Relay(GPB1, mcp2, "Autopilot", win, 10, 2))
-buttons.append(Relay(GPB2, mcp2, "VHF", win, 11, 2))
-buttons.append(Relay(GPB3, mcp2, "Radar", win, 12, 2))
-buttons.append(Relay(GPB4, mcp2, "Furler", win, 13, 2))
-buttons.append(Relay(GPB5, mcp2, "Music", win, 14, 2))
-buttons.append(Relay(GPB6, mcp2, "Video", win, 15, 2))
-buttons.append(Relay(GPB7, mcp2, "Security", win, 16, 2))
+labels = []
+# Interior Lights
+labels.append(Label(win, text="Interior Lights", font=myFont).grid(1, 1))
+buttons.append(Relay(GPA0, mcp1, "Main cabin", win, 2, 1))
+buttons.append(Relay(GPA1, mcp1, "Stb Fwd", win, 3, 1))
+buttons.append(Relay(GPA2, mcp1, "Port Aft", win, 4, 1))
+buttons.append(Relay(GPA3, mcp1, "Workshop", win, 5, 1))
+buttons.append(Relay(GPA4, mcp1, "Port Fwd", win, 6, 1))
+buttons.append(Relay(GPA5, mcp1, "Saloon", win, 7, 1))
+buttons.append(Relay(GPA6, mcp1, "Stair", win, 8, 1))
+# Exterior Lights
+labels.append(Label(win, text="Exterior Lights", font=myFont).grid(1, 2))
+buttons.append(Relay(GPA7, mcp1, "Underwater", win, 2, 2))
+buttons.append(Relay(GPB0, mcp1, "Courtesy", win, 3, 2))
+buttons.append(Relay(GPB1, mcp1, "Spreader", win, 4, 2))
+buttons.append(Relay(GPB2, mcp1, "Awning", win, 5, 2))
+buttons.append(Relay(GPB3, mcp1, "Landing", win, 6, 2))
+# Navigation Lights
+labels.append(Label(win, text="Navigation Lights", font=myFont).grid(1, 3))
+buttons.append(Relay(GPB4, mcp1, "Tricolor", win, 2, 3))
+buttons.append(Relay(GPB5, mcp1, "Anchor", win, 3, 3))
+buttons.append(Relay(GPB6, mcp1, "Steaming", win, 4, 3))
+buttons.append(Relay(GPB7, mcp1, "Lower Nav", win, 5, 3))
+# Pumps
+labels.append(Label(win, text="Pumps", font=myFont).grid(1, 4))
+buttons.append(Relay(GPA0, mcp2, "Fuel  P-S", win, 2, 4))
+buttons.append(Relay(GPA1, mcp2, "Fuel  S-P", win, 3, 4))
+# Electrical
+labels.append(Label(win, text="Electrical", font=myFont).grid(1, 5))
+buttons.append(Relay(GPA2, mcp2, "Generator", win, 2, 5))
+buttons.append(Relay(GPA3, mcp2, "240 V Invert", win, 3, 5))
+buttons.append(Relay(GPA4, mcp2, "120 V Invert", win, 4, 5))
+buttons.append(Relay(GPA5, mcp2, "TV", win, 5, 5))
+buttons.append(Relay(GPA6, mcp2, "Watermaker", win, 6, 5))
+buttons.append(Relay(GPA7, mcp2, "Spare", win, 7, 5))
+# Electronics
+labels.append(Label(win, text="Electronics", font=myFont).grid(1, 6))
+buttons.append(Relay(GPB0, mcp2, "Instruments", win, 2, 6))
+buttons.append(Relay(GPB1, mcp2, "Autopilot", win, 3, 6))
+buttons.append(Relay(GPB2, mcp2, "VHF", win, 4, 6))
+buttons.append(Relay(GPB3, mcp2, "Radar", win, 5, 6))
+buttons.append(Relay(GPB4, mcp2, "Furler", win, 6, 6))
+buttons.append(Relay(GPB5, mcp2, "Music", win, 7, 6))
+buttons.append(Relay(GPB6, mcp2, "Video", win, 8, 6))
+buttons.append(Relay(GPB7, mcp2, "Security", win, 9, 6))
 
-exitButton = Button(win, text='Exit', font=myFont, command=close, bg='red', height=1, width=6)
-exitButton.grid(row=17, column=1)
+exitButton = Button(win, text='Exit', font=myFont, command=close, bg='blue', height=button_height, width=button_width)
+exitButton.grid(row=9, column=1)
 
 win.protocol("WM_DELETE_WINDOW", close) # cleanup GPIO when user closes window
 win.mainloop() # Loops forever
