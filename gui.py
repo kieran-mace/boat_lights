@@ -104,22 +104,22 @@ mcp2 = 'mcp'
 ### GUI DEFINITIONS ###
 win = Tk()
 win.title("Relay Controller")
-window.geometry("800x600")  # Set the initial window size
+win.geometry("1920x1200")  # Set the initial win size
 
 
 myFont = tkinter.font.Font(family = 'Helvetica', size = 26, weight = "bold")
 
 # Configure the grid columns to be proportional
 for i in range(6):
-    window.grid_columnconfigure(i, weight=1)
+    win.grid_columnconfigure(i, weight=1)
 
 # Create a frame to hold your buttons
-frame = tk.Frame(window)
+frame = tk.Frame(win)
 frame.pack(fill="both", expand=True)
 
-# Create the buttons and set their size based on the window width
-button_width = int((window.winfo_width() - 20) / 6)  # Adjust this value as needed
-button_height = int((window.winfo_height() - 20) / 9)
+# Create the buttons and set their size based on the win width
+button_width = int((win.winfo_width() - 20) / 6)  # Adjust this value as needed
+button_height = int((win.winfo_height() - 20) / 9)
 
 ### WIDGETS ###
 
