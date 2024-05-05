@@ -57,6 +57,27 @@ class Relay:
         self.mcpController.digital_write(self.gpioNumber, HIGH)
         self.button.config(bg="red")
     
+class TemporaryRelay(Relay):
+  def __init__(self, gpioNumber, mcpController, name, window, row, col):
+    super().__init__(gpioNumber, mcpController, name, window, row, col)
+    self.timer = None
+
+  def flip(self):
+    if self.status:
+      print("Flipping Relay " + self.name + " from on to off")
+      self.status = False
+      self.mcpController.digital_write(self.gpioNumber, LOW)
+      self.button.config(bg="bisque2")
+      if self.timer is not None:
+        self.window.after_cancel(self.timer)
+        self.timer = None
+    else:
+      print("Flipping Relay " + self.name + " from off to on")
+      self.status = True
+      self.mcpController.digital_write(self.gpioNumber, HIGH)
+      self.button.config(bg="red")
+      self.timer = self.window.after(5000, self.flip)
+      # self.timer = self.window.after(300000, self.flip)
 
 def close():
     #RPi.GPIO.cleanup()
@@ -103,7 +124,7 @@ buttons.append(Relay(GPA2, mcp1, "Port Aft", win, 4, 1))
 buttons.append(Relay(GPA3, mcp1, "Workshop", win, 5, 1))
 buttons.append(Relay(GPA4, mcp1, "Port Fwd", win, 6, 1))
 buttons.append(Relay(GPA5, mcp1, "Saloon", win, 7, 1))
-buttons.append(Relay(GPA6, mcp1, "Stair", win, 8, 1))
+buttons.append(TemporaryRelay(GPA6, mcp1, "Stair", win, 8, 1))
 # Exterior Lights
 label = Label(win, text="Exterior Lights", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 2)
@@ -125,8 +146,8 @@ buttons.append(Relay(GPB7, mcp1, "Lower Nav", win, 5, 3))
 label = Label(win, text="Pumps", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 4)
 labels.append(label)
-buttons.append(Relay(GPA0, mcp2, "Fuel  P-S", win, 2, 4))
-buttons.append(Relay(GPA1, mcp2, "Fuel  S-P", win, 3, 4))
+buttons.append(TemporaryRelay(GPA0, mcp2, "Fuel  P-S", win, 2, 4))
+buttons.append(TemporaryRelay(GPA1, mcp2, "Fuel  S-P", win, 3, 4))
 # Electrical
 label = Label(win, text="Electrical", font=myFont, width=button_width, height=button_height)
 label.grid(row = 1, column = 5)
