@@ -41,19 +41,25 @@ class Relay:
     self.col = col
     self.button = Button(self.window, text=self.name, font=myFont, command=self.flip, bg='bisque2', height=button_height, width=button_width)
     self.button.grid(row=self.row,column=self.col)
-
-  def flip(self):
-    if self.status:
-        print("Flipping Relay " + self.name + " from on to off")
-        self.status = False
-        self.mcpController.digital_write(self.gpioNumber, LOW)
-        self.button.config(bg="bisque2")
-    else:
+  
+  def switch_on(self):
         print("Flipping Relay " + self.name + " from off to on")
         self.status = True
         self.mcpController.digital_write(self.gpioNumber, HIGH)
         self.button.config(bg="red")
-    
+ 
+  def switch_off(self):
+        print("Flipping Relay " + self.name + " from on to off")
+        self.status = False
+        self.mcpController.digital_write(self.gpioNumber, LOW)
+        self.button.config(bg="bisque2")
+
+  def flip(self):
+    if self.status:
+        self.switch_off()
+    else:
+        self.switch_on()    
+
 class TemporaryRelay(Relay):
     def __init__(self, gpioNumber, mcpController, name, window, row, col):
         super().__init__(gpioNumber, mcpController, name, window, row, col)
@@ -61,19 +67,13 @@ class TemporaryRelay(Relay):
 
     def flip(self):
         if self.status:
-            print("Flipping Relay " + self.name + " from on to off")
-            self.status = False
-            self.mcpController.digital_write(self.gpioNumber, LOW)
-            self.button.config(bg="bisque2")
+            self.switch_off()
             if self.timer is not None:
                 self.window.after_cancel(self.timer)
                 self.timer = None
         else:
-            print("Flipping Relay " + self.name + " from off to on")
-            self.status = True
-            self.mcpController.digital_write(self.gpioNumber, HIGH)
-            self.button.config(bg="red")
-            self.timer = self.window.after(300000, lambda: self.flip())
+            self.switch_on()
+            self.timer = self.window.after(300000, lambda: self.switch_off())
 
 def close():
     #RPi.GPIO.cleanup()
