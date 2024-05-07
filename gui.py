@@ -39,7 +39,14 @@ class Relay:
     self.window = window
     self.row = row
     self.col = col
-    self.button = Button(self.window, text=self.name, font=myFont, command=self.flip, bg='bisque2', height=button_height, width=button_width)
+    self.button = Button(self.window, 
+                         text=self.name, 
+                         font=myFont, 
+                         command=self.flip, 
+                         bg='bisque2', 
+                         height=button_height, 
+                         width=button_width, 
+                         takefocus=0)
     self.button.grid(row=self.row,column=self.col)
   
   def switch_on(self):
