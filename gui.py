@@ -101,12 +101,12 @@ bus.write_byte_data(0x26,MCP23017_GPIOA,0x00)
 bus.write_byte_data(0x26,MCP23017_GPIOB,0x00)
 mcp1 = MCP23017(0x26, bus)  
 
-# bus.write_byte_data(0x27,MCP23017_IODIRA,0x00)
-# bus.write_byte_data(0x27,MCP23017_IODIRB,0x00)
-# bus.write_byte_data(0x27,MCP23017_GPIOA,0x00)
-# bus.write_byte_data(0x27,MCP23017_GPIOB,0x00)
-# mcp2 = MCP23017(0x27, bus)  
-mcp2 = 'mcp'
+bus.write_byte_data(0x27,MCP23017_IODIRA,0x00)
+bus.write_byte_data(0x27,MCP23017_IODIRB,0x00)
+bus.write_byte_data(0x27,MCP23017_GPIOA,0x00)
+bus.write_byte_data(0x27,MCP23017_GPIOB,0x00)
+mcp2 = MCP23017(0x27, bus)  
+#mcp2 = 'mcp'
 
 ### GUI DEFINITIONS ###
 win = Tk()
