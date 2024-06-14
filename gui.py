@@ -27,6 +27,9 @@ ALL_GPIO = [GPA0, GPA1, GPA2, GPA3, GPA4, GPA5, GPA6, GPA7, GPB0, GPB1, GPB2, GP
 HIGH = 0xFF
 LOW = 0x00
 
+OFF = HIGH
+ON = LOW
+
 INPUT = 0xFF
 OUTPUT = 0x00
 
@@ -48,19 +51,20 @@ class Relay:
                          width=button_width, 
                          takefocus=0)
     self.button.grid(row=self.row,column=self.col)
+    self.switch_off()
   
   def switch_on(self):
         print("Flipping Relay " + self.name + " from off to on")
         self.status = True
-        self.mcpController.digital_write(self.gpioNumber, HIGH)
+        self.mcpController.digital_write(self.gpioNumber, ON)
         self.button.config(bg="red")
  
   def switch_off(self):
         print("Flipping Relay " + self.name + " from on to off")
         self.status = False
-        self.mcpController.digital_write(self.gpioNumber, LOW)
+        self.mcpController.digital_write(self.gpioNumber, OFF)
         self.button.config(bg="bisque2")
-
+  
   def flip(self):
     if self.status:
         self.switch_off()
@@ -97,14 +101,14 @@ bus = smbus.SMBus(1)
 
 bus.write_byte_data(0x26,MCP23017_IODIRA,0x00)
 bus.write_byte_data(0x26,MCP23017_IODIRB,0x00)
-bus.write_byte_data(0x26,MCP23017_GPIOA,0x00)
-bus.write_byte_data(0x26,MCP23017_GPIOB,0x00)
+bus.write_byte_data(0x26,MCP23017_GPIOA,OFF)
+bus.write_byte_data(0x26,MCP23017_GPIOB,OFF)
 mcp1 = MCP23017(0x26, bus)  
 
 bus.write_byte_data(0x27,MCP23017_IODIRA,0x00)
 bus.write_byte_data(0x27,MCP23017_IODIRB,0x00)
-bus.write_byte_data(0x27,MCP23017_GPIOA,0x00)
-bus.write_byte_data(0x27,MCP23017_GPIOB,0x00)
+bus.write_byte_data(0x27,MCP23017_GPIOA,OFF)
+bus.write_byte_data(0x27,MCP23017_GPIOB,OFF)
 mcp2 = MCP23017(0x27, bus)  
 #mcp2 = 'mcp'
 
